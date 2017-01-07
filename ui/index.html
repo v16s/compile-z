@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://use.fontawesome.com/c9b2b1cf8c.js"></script>
+    <link htype="text/css" rel="stylesheet" href="css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+        h5 {
+            font-size: 1.4em;
+        }
+        .no-bottom {
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .collection {
+            overflow: visible;
+        }
+        
+        .sandbox .input-field input[type=text]:focus + label {
+            color: #1b5e20 ;
+        }
+
+        /* label underline focus color */
+        .sandbox .input-field input[type=text]:focus {
+            border-bottom: 1px solid #1b5e20;
+            box-shadow: 0 1px 0 0 #1b5e20;
+        }
+        
+        /* icon prefix focus color */
+        .sandbox .input-field .prefix.active {
+            color: #1b5e20;
+        }
+
+        .sandbox .input-field .prefix {
+            color: #1b5e20;
+        }
+
+        .sandbox .input-field textarea:focus + label {
+            color: #1b5e20 ;
+        }
+
+        /* label underline focus color */
+        .sandbox .input-field textarea:focus {
+            border-bottom: 1px solid #1b5e20;
+            box-shadow: 0 1px 0 0 #1b5e20;
+        }
+
+
+        .code-container .input-field input[type=text]:focus + label {
+            color: #0d47a1  ;
+        }
+
+        /* label underline focus color */
+        .code-container .input-field input[type=text]:focus {
+            border-bottom: 1px solid #0d47a1 ;
+            box-shadow: 0 1px 0 0 #0d47a1 ;
+        }
+        
+        /* icon prefix focus color */
+        .code-container .input-field .prefix.active {
+            color: #0d47a1 ;
+        }
+
+        .code-container .input-field .prefix {
+            color: #0d47a1 ;
+        }
+
+        .inlarge {
+            line-height: 2.5rem !important;
+        }
+
+        .code-container .input-field textarea:focus + label {
+            color: #0d47a1  ;
+        }
+
+        /* label underline focus color */
+        .code-container .input-field textarea:focus {
+            border-bottom: 1px solid #0d47a1 ;
+            box-shadow: 0 1px 0 0 #0d47a1 ;
+        }
+        
+        .tiny {
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body class="grey lighten-3">
+    <nav>
+        <div class="nav-wrapper red darken-4">
+            <a href="#" class="brand-logo center"><i class="fa fa-code-fork"></i>CompileZ Control Panel <span class="tiny"> BETA</span></a>
+        </div>
+    </nav>
+    <br>
+    <div class="container">
+        <!-- Status Report Card -->
+        <div class="card satus">
+            <div class="card-content">
+                <ul class="collection with-header">
+                    <li class="collection-header"><h5 class="yellow-text text-darken-4"><i class="fa fa-file-text"></i>&nbsp; STATUS REPORT</h5></li>
+                    <li class="collection-item inlarge">
+                        <div>Active<a href="#!" class="secondary-content">
+                            <i class="fa fa-check-square yellow-text text-darken-4" id="active_done"></i>
+                            <div class="preloader-wrapper small active" id="active_preloader">
+                                <div class="spinner-layer spinner-red-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                                </div>
+                            </div>
+                        </a></div></li>
+                        <li class="collection-item inlarge">
+                        <div> 
+                            Delopyment
+                            <a class="secondary-content ">
+                                <i class="fa fa-check-square yellow-text text-darken-4" id="deployment_done"></i>
+                                <div class="preloader-wrapper small active" id="deployment_preloader">
+                                    <div class="spinner-layer spinner-red-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div><div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div><div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="collection-item inlarge"><div>Files Compiled in this Run<a href="#!" class="secondary-content">
+                        <span id="compile_count" class=" yellow-text text-darken-4"><strong>0</strong></span>
+                        <div class="preloader-wrapper small active" id="compile_count_preloader">
+                                <div class="spinner-layer spinner-red-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div><div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                                </div>
+                            </div>
+                        </a></div></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Code Comiple Card -->
+        <div class="card code-container">
+            <div class="card-content">
+                <ul class="collection with-header">
+                    <li class="collection-header"><h5 class="blue-text text-darken-4"><i class="fa fa-laptop"></i>&nbsp; CODE TEST</h5></li>
+                    <li class="collection-item">
+                        <div>
+                            <div class="row no-bottom">
+                                <form class="col s12">
+                                    <div class="row no-bottom">
+                                        <div class="input-field col s6">
+                                        <i class="prefix fa fa-link"></i>
+                                        <input id="code_api_key" type="text" class="validate">
+                                        <label for="code_api_key">API Key</label>
+                                        </div>
+
+                                        <div class="input-field col s6">
+                                            <i class="blue-text text-darken-4 prefix fa fa-laptop"></i>
+                                            <select id="code_language">
+                                            <option value="" disabled selected>Choose your option</option>
+                                            <option value="C">C Language</option>
+                                            <option value="CPP">C++ Language</option>
+                                            <option value="JAVA">JAVA Language</option>
+                                            <option value="PYTHON">Python Language</option>
+                                            <option value="MATLAB">Matlab Language</option>
+                                            <option value="JAVA">JAVA Language</option>
+                                            </select>
+                                            <label>Coding Language</label>
+                                        </div>                                        
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="row no-bottom">
+                                <form class="col s12">
+                                    <div class="row no-bottom">
+                                        <div class="input-field col s12">
+                                        <i class="prefix fa fa-code"></i>
+                                        <textarea id="code_code" class="materialize-textarea"></textarea>
+                                        <label for="code_code">Code</label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="row no-bottom">
+                            <form class="col s12">
+                            <div class="row no-bottom">
+                                <div class="input-field col s12">
+                                <i class="prefix fa fa-terminal"></i>
+                                <textarea id="code_input" class="materialize-textarea"></textarea>
+                                <label for="code_input">Input</label>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+
+                        <div class="row">
+                            <div class="col s12">
+                                <a class="waves-effect waves-light blue darken-4 btn right" id="execute_button">Execute &nbsp;<i class="prefix fa fa-cog"></i></a>
+                            </div>
+                        </div>
+
+
+                        </div>
+                    </li>
+                    <li class="collection-item"  id="code_indeterminate">
+                        <div>
+                            <div class="progress grey lighten-2">
+                                <div class="indeterminate blue darken-4"></div>
+                            </div>
+                        </div>
+                    </li>   
+
+                    <li class="collection-item" id="code_output">
+                        Code Output Will Come Here
+                    </li>  
+                </ul>
+            </div>
+        </div>
+
+
+        <!-- Sandbox Card -->
+        <div class="card sandbox">
+            <div class="card-content">
+                <ul class="collection with-header">
+                    <li class="collection-header"><h5 class="green-text text-darken-4"><i class="fa fa-cogs"></i>&nbsp; SANDBOX</h5></li>
+                    <li class="collection-item">
+                        <div class="row no-bottom">
+                            <div class="col s12">
+                                <div class="row no-bottom">
+                                    <div class="input-field col s12">
+                                    <i class="prefix fa fa-link"></i>
+                                    <input id="sandbox_url" type="text">
+                                    <label for="sandbox_url">API Link</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row no-bottom">
+                            <form class="col s12">
+                            <div class="row no-bottom">
+                                <div class="input-field col s12">
+                                <i class="prefix fa fa-file-text-o"></i>
+                                <textarea id="sandox_json" class="materialize-textarea"></textarea>
+                                <label for="sandox_json">JSON Data</label>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+
+                        <div class="row no-bottom">
+                            <div class="col s12">
+                                <a class="btn-floating btn-large waves-effect waves-light green darken-4 right" id="fly_button"><i class="fa fa-paper-plane"></i></a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="collection-item"  id="sandbox_indeterminate">
+                        <div>
+                            <div class="progress grey lighten-2">
+                                <div class="indeterminate green darken-4"></div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="collection-item" id="sandbox_output">
+                            Your Plane Will Land Here    
+                    </li>
+                    </ul>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+</body>
+</html>
+    
