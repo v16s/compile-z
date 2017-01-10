@@ -4,6 +4,7 @@ node_modules/
 #app generated files
 .node-persist/
 usercodes/*
+userimages/*
 
 #typings
 launch.json

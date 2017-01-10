@@ -8,6 +8,7 @@ var deployment = require("./api-v1/deploy");
 var active = require("./api-v1/active");
 var counter = require("./api-v1/counter");
 var code = require("./api-v1/code");
+var image = require("./api-v1/image");
 
 var app = express();
 
@@ -46,6 +47,18 @@ app.post("/api/v1/code",function(req,res) {
         console.log(JSON.stringify(jsonData));
     });
 });
+
+app.post("/api/v1/image",function(req,res){
+    image.html2image(req.body,function(jsonData){
+        if(jsonData['statusCode'] == "200") {
+            res.writeHead(200, {'Content-Type': 'image/png' });
+            res.end(jsonData['image']);
+        } else {
+            res.send(JSON.stringify(jsonData));
+        }
+    });
+});
+
 
 app.listen(2200,function(){
     console.log("Listening on Port 2200")
