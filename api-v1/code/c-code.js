@@ -22,7 +22,7 @@ var execute = function(reqData,callback) {
 
     var pwd = process.cwd() + "/usercodes/" + foldername + "/";
 
-    execFile('gcc',['main.c'], {'cwd': pwd },(error, stdout, stderr) => {
+    execFile('gcc',['main.c','-lm'], {'cwd': pwd },(error, stdout, stderr) => {
         if (error) {
             callback({
                 "statusCode": "404",
