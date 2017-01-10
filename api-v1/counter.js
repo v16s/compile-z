@@ -13,13 +13,13 @@ var getCount = function() {
 
     return  {
         "statusCode": "200",
-        "total": totalCount
+        "total": (totalCount%300)
     };
 };
 
 var increaseTotalCount = function() {
     storage.initSync();
-    var totalCount = parseInt(storage.getItemSync('total-count'))%100;
+    var totalCount = parseInt(storage.getItemSync('total-count'));
     totalCount++;
     
     storage.setItemSync('total-count',totalCount);
