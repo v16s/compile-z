@@ -41,10 +41,11 @@ app.post("/api/v1/count",function(req,res){
 });
 
 app.post("/api/v1/code",function(req,res) {
+    console.log("INBOUND: " + JSON.stringify(req.body));
     code.code(req.body,function(jsonData){
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(jsonData));
-        console.log(JSON.stringify(jsonData));
+        console.log('OUTBOUND' + JSON.stringify(jsonData));
     });
 });
 

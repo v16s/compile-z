@@ -42,6 +42,13 @@ var execute = function(reqData,callback) {
         var count = 0;
 
         inputs = reqData['inputs'];
+        if(inputs.length === 0) {
+            callback({
+                "statusCode": "404",
+                "output": "Provide a Valid Input"
+            });
+            return;
+        }
 
         for(var i=0;i < inputs.length; i++) {
             if(inputs[i] == "") {

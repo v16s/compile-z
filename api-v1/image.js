@@ -25,7 +25,7 @@ var html2image = function(jsonData,callback) {
     var pwd = process.cwd() + "/userimages/" + foldername + "/";
     // Folder is created now
 
-    console.log(jsonData['html']);
+    //console.log(jsonData['html']);
     fs.writeFileSync("./userimages/" + foldername + "/index.html",jsonData['html']);
     var exec_statment = 'wkhtmltoimage ' + pwd + 'index.html ' + pwd + 'image.png';
     exec(exec_statment,{'cwd': pwd, 'timeout': 10000 }, (error, stdout, stderr) => {
