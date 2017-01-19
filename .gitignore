@@ -5,6 +5,7 @@ node_modules/
 .node-persist/
 usercodes/*
 userimages/*
+sizeLogs.txt
 
 #typings
 launch.json

@@ -14,8 +14,10 @@ var java_check = require("./code/java-check");
 var matlab_code = require("./code/matlab-code");
 var matlab_check = require("./code/matlab-check");
 
+var fs = require('fs');
 
 var code = function(reqData,callback) {
+
     var api = reqData['api-key'];
     
     if(api != "reezpatel") {
@@ -28,6 +30,24 @@ var code = function(reqData,callback) {
 
     var lang = (reqData['language'] + "").toLowerCase();
     var mode = reqData['mode'];
+
+    if(mode == "verify") {
+        //Evaluate
+        fs.appendFile('sizeLogs.txt',"Code: " + Buffer.byteLength(reqData['code'], 'utf8')+'B\n',(err) => {
+            if (err) throw err;
+            console.log('The "data to append" was appended to file!');
+        });
+    } else {
+        //Check
+        fs.appendFile('sizeLogs.txt',"Code: " + Buffer.byteLength(reqData['code']+'\n', 'utf8')+'B\n',(err) => {
+            if (err) throw err;
+            console.log('The "data to append" was appended to file!');
+        });
+        fs.appendFile('sizeLogs.txt',"Input: "+Buffer.byteLength(reqData['input']+'\n', 'utf8')+'B\n',(err) => {
+            if (err) throw err;
+            console.log('The "data to append" was appended to file!');
+        });
+    }
 
     if(lang == 'c') {
         if(mode == "verify") {
