@@ -13,7 +13,8 @@ var execute = function(reqData,callback) {
         fs.mkdirSync(pathName,0777);
     }
 
-    fs.writeFileSync("./usercodes/" + foldername + "/main.c",reqData['code']);
+    var finalSourceCode = "#define system NotAllowedException \n #define exec NotAllowedException \n" + reqData['code'];
+    fs.writeFileSync("./usercodes/" + foldername + "/main.c", finalSourceCode);
 
     var pwd = process.cwd() + "/usercodes/" + foldername + "/";
 
@@ -56,13 +57,13 @@ var execute = function(reqData,callback) {
                     outputs[index] = jsonData;
                     count++;
                     if(count == inputs.length) {
+                        //free up folder
+                        counter.freeFolder(pwd);
+
                         callback({
                             "statusCode": "200",
                             "output": JSON.stringify(outputs)
                         });
-                        
-                        //free up folder
-                        counter.freeFolder(pwd);
                     }
                 });
             } else {

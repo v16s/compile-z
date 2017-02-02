@@ -17,13 +17,18 @@ var execute = function(reqData,callback) {
         fs.mkdirSync(pathName,0777);
     }
 
-    fs.writeFileSync("./usercodes/" + foldername + "/main.c",reqData['code']);
+    var finalSourceCode = "#define system NotAllowedException \n #define exec NotAllowedException \n" + reqData['code'];
+
+    fs.writeFileSync("./usercodes/" + foldername + "/main.c",finalSourceCode);
     fs.writeFileSync("./usercodes/" + foldername + "/input.txt",reqData['input']);
 
     var pwd = process.cwd() + "/usercodes/" + foldername + "/";
 
     execFile('gcc',['main.c','-lm'], {'cwd': pwd },(error, stdout, stderr) => {
         if (error) {
+            //free up folder
+            counter.freeFolder(pwd);
+            
             callback({
                 "statusCode": "404",
                 "errorMsg": error.message
@@ -31,6 +36,9 @@ var execute = function(reqData,callback) {
             return;
         }
         if(stderr) {
+            //free up folder
+            counter.freeFolder(pwd);
+            
             callback({
                 "statusCode": "404",
                 "errorMsg": stderr
