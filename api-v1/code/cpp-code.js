@@ -17,7 +17,8 @@ var execute = function(reqData,callback) {
         fs.mkdirSync(pathName,0777);
     }
 
-    fs.writeFileSync("./usercodes/" + foldername + "/main.cpp",reqData['code']);
+    var finalSourceCode = "#define system NotAllowedException \n #define exec NotAllowedException \n" + reqData['code'];
+    fs.writeFileSync("./usercodes/" + foldername + "/main.cpp",finalSourceCode);
     fs.writeFileSync("./usercodes/" + foldername + "/input.txt",reqData['input']);
 
     var pwd = process.cwd() + "/usercodes/" + foldername + "/";
@@ -44,24 +45,24 @@ var execute = function(reqData,callback) {
         console.log("Executing" + pwd);
         exec('./a.out <input.txt',{'cwd': pwd, 'timeout': 10000 },(error, stdout, stderr) => {
             if (error) {
+                        //free up folder
+                        counter.freeFolder(pwd);
                 if(error['signal'] === "SIGTERM") {
                     callback({
                         "statusCode": "404",
                         "errorMsg": "Execution timeout [10 SEC]"
                     });
-                        //free up folder
-                        counter.freeFolder(pwd);
                     return;
                 }
                 callback({
                     "statusCode": "404",
                     "errorMsg": error.message
                 });
-                        //free up folder
-                        counter.freeFolder(pwd);
                 return;
             }
             if(stderr) {
+                        //free up folder
+                        counter.freeFolder(pwd);
                 callback({
                     "statusCode": "404",
                     "errorMsg": stderr
@@ -69,12 +70,12 @@ var execute = function(reqData,callback) {
                         //free up folder
                         counter.freeFolder(pwd);
             }else{
+                        //free up folder
+                        counter.freeFolder(pwd);
                 callback({
                     "statusCode":"200",
                     "output": stdout
                 });
-                        //free up folder
-                        counter.freeFolder(pwd);
             }
         });
     }

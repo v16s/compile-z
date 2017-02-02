@@ -19,6 +19,9 @@ var execute = function(reqData,callback) {
 
     execFile('javac',['TestClass.java'], {'cwd': pwd },(error, stdout, stderr) => {
         if (error) {
+                        //free up folder
+                        counter.freeFolder(pwd);
+
             callback({
                 "statusCode": "404",
                 "errorMsg": error.message
@@ -26,6 +29,9 @@ var execute = function(reqData,callback) {
             return;
         }
         if(stderr) {
+                        //free up folder
+                        counter.freeFolder(pwd);
+                        
             callback({
                 "statusCode": "404",
                 "errorMsg": stderr

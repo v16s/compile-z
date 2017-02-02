@@ -13,12 +13,17 @@ var execute = function(reqData,callback) {
         fs.mkdirSync(pathName,0777);
     }
 
-    fs.writeFileSync("./usercodes/" + foldername + "/main.cpp",reqData['code']);
+    var finalSourceCode = "#define system NotAllowedException \n #define exec NotAllowedException \n" + reqData['code'];
+    fs.writeFileSync("./usercodes/" + foldername + "/main.cpp",finalSourceCode);
 
     var pwd = process.cwd() + "/usercodes/" + foldername + "/";
 
     execFile('g++',['main.cpp'], {'cwd': pwd },(error, stdout, stderr) => {
         if (error) {
+
+                        //free up folder
+                        counter.freeFolder(pwd);
+                        
             callback({
                 "statusCode": "404",
                 "errorMsg": error.message
@@ -26,6 +31,9 @@ var execute = function(reqData,callback) {
             return;
         }
         if(stderr) {
+                        //free up folder
+                        counter.freeFolder(pwd);
+
             callback({
                 "statusCode": "404",
                 "errorMsg": stderr
@@ -49,13 +57,14 @@ var execute = function(reqData,callback) {
                     outputs[index] = jsonData;
                     count++;
                     if(count == inputs.length) {
+                        //free up folder
+                        counter.freeFolder(pwd);
+
                         callback({
                             "statusCode": "200",
                             "output": JSON.stringify(outputs)
                         });
                         
-                        //free up folder
-                        counter.freeFolder(pwd);
                     }
                 });
             } else {
@@ -63,13 +72,14 @@ var execute = function(reqData,callback) {
                     outputs[index] = jsonData;
                     count++;
                     if(count == inputs.length) {
+                        //free up folder
+                        counter.freeFolder(pwd);
+
                         callback({
                             "statusCode": "200",
                             "output": JSON.stringify(outputs)
                         });
 
-                        //free up folder
-                        counter.freeFolder(pwd);
                     }
                 });
             }

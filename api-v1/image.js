@@ -27,23 +27,28 @@ var html2image = function(jsonData,callback) {
 
     //console.log(jsonData['html']);
     fs.writeFileSync("./userimages/" + foldername + "/index.html",jsonData['html']);
+    
     var exec_statment = 'wkhtmltoimage ' + pwd + 'index.html ' + pwd + 'image.png';
     exec(exec_statment,{'cwd': pwd, 'timeout': 10000 }, (error, stdout, stderr) => {
         if (error) {
+            // Deleting folder
+            counter.freeFolder(pwd);
+
             callback({
                 "statusCode": "404",
                 "errorMsg": error.message
             });
 
             console.log("Message: " + error.message);
-            // Deleting folder
-            //counter.freeFolder(pwd);
             
             return;
         }
         
         fs.readFile(pwd+'/image.png',{'cwd': pwd, 'timeout': 10000 },(err,data) => {
             if(err) {
+                // Deleting folder
+                counter.freeFolder(pwd);
+
                 callback({
                     "statusCode": "404",
                     "errorMsg": err.message
@@ -55,13 +60,14 @@ var html2image = function(jsonData,callback) {
                 return;
             }
             //image read success
+            // Deleting folder
+            counter.freeFolder(pwd);
+
             callback({
                 "statusCode": "200",
                 "image": data
             });
 
-            // Deleting folder
-            counter.freeFolder(pwd);
         });
     });
 
