@@ -13,35 +13,11 @@ var execute = function(reqData,callback) {
         fs.mkdirSync(pathName,0777);
     }
 
-    var finalSourceCode = "#define system1 NotAllowedException \n #define exec NotAllowedException \n" + reqData['code'];
-    fs.writeFileSync("./usercodes/" + foldername + "/main.cpp",finalSourceCode);
+    fs.writeFileSync("./usercodes/" + foldername + "/main.py",reqData['code']);
 
     var pwd = process.cwd() + "/usercodes/" + foldername + "/";
 
-     execFile('g++',['-std=c++11','main.cpp'], {'cwd': pwd },(error, stdout, stderr) => {
-        if (error) {
-
-                        //free up folder
-                        counter.freeFolder(pwd);
-                        
-            callback({
-                "statusCode": "404",
-                "errorMsg": error.message
-            });
-            return;
-        }
-        if(stderr) {
-                        //free up folder
-                        counter.freeFolder(pwd);
-
-            callback({
-                "statusCode": "404",
-                "errorMsg": stderr
-            });
-        }else {
-            execute(reqData,pwd,callback);
-        }
-    });
+    execute(reqData,pwd,callback);
 
     function execute(reqData,pwd,callback) {
         var inputs = [];
@@ -58,21 +34,20 @@ var execute = function(reqData,callback) {
             });
             return;
         }
-
+        
         for(var i=0;i < inputs.length; i++) {
             if(inputs[i] == "") {
                 getOutput(pwd," ",i,(jsonData,index) => {
                     outputs[index] = jsonData;
                     count++;
                     if(count == inputs.length) {
-                        //free up folder
-                        counter.freeFolder(pwd);
-
                         callback({
                             "statusCode": "200",
                             "output": JSON.stringify(outputs)
                         });
                         
+                        //free up folder
+                        counter.freeFolder(pwd);
                     }
                 });
             } else {
@@ -80,14 +55,13 @@ var execute = function(reqData,callback) {
                     outputs[index] = jsonData;
                     count++;
                     if(count == inputs.length) {
-                        //free up folder
-                        counter.freeFolder(pwd);
-
                         callback({
                             "statusCode": "200",
                             "output": JSON.stringify(outputs)
                         });
 
+                        //free up folder
+                        counter.freeFolder(pwd);
                     }
                 });
             }
@@ -98,7 +72,7 @@ var execute = function(reqData,callback) {
         
         fs.writeFileSync("./usercodes/" + foldername + "/input" + index + ".txt",input);
         
-        exec('./a.out <input' + index + '.txt',{'cwd': pwd, 'timeout': 10000 },(error, stdout, stderr) => {
+        exec('python3.6 main.py < input' + index + '.txt',{'cwd': pwd, 'timeout': 10000 },(error, stdout, stderr) => {
             if (error) {
                 if(error['signal'] === "SIGTERM") {
                     callback({

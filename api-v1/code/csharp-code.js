@@ -17,13 +17,13 @@ var execute = function(reqData,callback) {
         fs.mkdirSync(pathName,0777);
     }
 
-    var finalSourceCode = "#define system1 NotAllowedException \n #define exec NotAllowedException \n" + reqData['code'];
-    fs.writeFileSync("./usercodes/" + foldername + "/main.cpp",finalSourceCode);
+    var finalSourceCode = reqData['code'];
+    fs.writeFileSync("./usercodes/" + foldername + "/main.cs",finalSourceCode);
     fs.writeFileSync("./usercodes/" + foldername + "/input.txt",reqData['input']);
 
     var pwd = process.cwd() + "/usercodes/" + foldername + "/";
 
-     execFile('g++',['-std=c++11','main.cpp'], {'cwd': pwd },(error, stdout, stderr) => {
+    execFile('mcs',['main.cs'], {'cwd': pwd },(error, stdout, stderr) => {
         if (error) {
             callback({
                 "statusCode": "404",
@@ -43,7 +43,7 @@ var execute = function(reqData,callback) {
 
     function execute(pwd,callback) {
         console.log("Executing" + pwd);
-        exec('./a.out <input.txt',{'cwd': pwd, 'timeout': 10000 },(error, stdout, stderr) => {
+        exec('mono main.exe <input.txt',{'cwd': pwd, 'timeout': 10000 },(error, stdout, stderr) => {
             if (error) {
                         //free up folder
                         counter.freeFolder(pwd);

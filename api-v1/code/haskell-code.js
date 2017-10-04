@@ -17,13 +17,15 @@ var execute = function(reqData,callback) {
         fs.mkdirSync(pathName,0777);
     }
 
-    var finalSourceCode = "#define system1 NotAllowedException \n #define exec NotAllowedException \n" + reqData['code'];
-    fs.writeFileSync("./usercodes/" + foldername + "/main.cpp",finalSourceCode);
+    var finalSourceCode = reqData['code'];
+    fs.writeFileSync("./usercodes/" + foldername + "/hmain.hs",finalSourceCode);
     fs.writeFileSync("./usercodes/" + foldername + "/input.txt",reqData['input']);
 
     var pwd = process.cwd() + "/usercodes/" + foldername + "/";
 
-     execFile('g++',['-std=c++11','main.cpp'], {'cwd': pwd },(error, stdout, stderr) => {
+
+     execFile('ghc',['hmain.hs','-o', 'hmain', '-threaded', '-rtsopts'], {'cwd': pwd },(error, stdout, stderr) => {
+
         if (error) {
             callback({
                 "statusCode": "404",
@@ -43,10 +45,10 @@ var execute = function(reqData,callback) {
 
     function execute(pwd,callback) {
         console.log("Executing" + pwd);
-        exec('./a.out <input.txt',{'cwd': pwd, 'timeout': 10000 },(error, stdout, stderr) => {
+        exec('./hmain <input.txt',{'cwd': pwd, 'timeout': 10000 },(error, stdout, stderr) => {
             if (error) {
                         //free up folder
-                        counter.freeFolder(pwd);
+                       counter.freeFolder(pwd);
                 if(error['signal'] === "SIGTERM") {
                     callback({
                         "statusCode": "404",

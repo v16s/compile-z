@@ -10,6 +10,36 @@ var cpp_code = require("./code/cpp-code");
 var cpp_check = require("./code/cpp-check");
 var cppCounter = 0;
 
+//python files
+var python_code = require("./code/python-code");
+var python_check = require("./code/python-check");
+var pythonCounter = 0;
+
+//perl files
+var perl_code = require("./code/perl-code");
+var perl_check = require("./code/perl-check");
+var perlCounter = 0;
+
+//r files
+var r_code = require("./code/r-code");
+var r_check = require("./code/r-check");
+var rCounter = 0;
+
+//ruby files
+var ruby_code = require("./code/ruby-code");
+var ruby_check = require("./code/ruby-check");
+var rubyCounter = 0;
+
+//csharp files
+var csharp_code = require("./code/csharp-code");
+var csharp_check = require("./code/csharp-check");
+var csharpCounter = 0;
+
+//haskell files
+var haskell_code = require("./code/haskell-code");
+var haskell_check = require("./code/haskell-check");
+var haskellCounter = 0;
+
 //java files
 var java_code = require("./code/java-code");
 var java_check = require("./code/java-check");
@@ -29,8 +59,27 @@ var deleteAllProcess = function(subjectID) {
         fileName = "a.out";
     }else if(subjectID == 2) {
         fileName = "java";
+    }else if(subjectID == 9) {
+        fileName = "perl";
+     }else if(subjectID == 8) {
+        fileName = "python";
     }else if(subjectID == 3) {
         fileName = "octave-gui";
+
+        exec("killall " + "octave-cli",(error,stdout,stderr) => {
+            if(error) {
+                console.log('Error in killing '+ fileName + " with Message: " + error.message);
+            }
+            console.log("Process Killed ocatave-cli");
+        });
+    }else if(subjectID == 10) {
+        fileName = "R";
+    }else if(subjectID == 13) {
+        fileName = "ruby";
+    }else if(subjectID == 12) {
+        fileName = "hmain";
+    }else if(subjectID == 11) {
+        fileName = "mono";
     }
 
     exec("killall " + fileName,(error,stdout,stderr) => {
@@ -118,9 +167,143 @@ var code = function(reqData,callback) {
                 callback(jsonData);
             });
         }    
-    }else if(lang == "java") {
-        javaCounter++;
+    }
 
+     else if(lang == "csharp"){
+        csharpCounter++;
+
+        if(mode == "verify") {
+            csharp_check.execute(reqData,function(jsonData){
+                csharpCounter--;
+                if(csharpCounter == 0) {
+                    deleteAllProcess(0);
+                }
+                callback(jsonData);
+            });
+        }else {
+            csharp_code.execute(reqData,function(jsonData){
+                csharpCounter--;
+                if(csharpCounter == 0) {
+                    deleteAllProcess(0);
+                }
+                callback(jsonData);
+            });
+        }    
+    }
+	
+     else if(lang == "haskell"){
+        haskellCounter++;
+
+        if(mode == "verify") {
+            haskell_check.execute(reqData,function(jsonData){
+                haskellCounter--;
+                if(haskellCounter == 0) {
+                    deleteAllProcess(0);
+                }
+                callback(jsonData);
+            });
+        }else {
+            haskell_code.execute(reqData,function(jsonData){
+                haskellCounter--;
+                if(haskellCounter == 0) {
+                    deleteAllProcess(0);
+                }
+                callback(jsonData);
+            });
+        }    
+    }
+
+
+	else if(lang == "python"){
+        pythonCounter++;
+
+        if(mode == "verify") {
+            python_check.execute(reqData,function(jsonData){
+                pythonCounter--;
+                if(pythonCounter == 0) {
+                    deleteAllProcess(8);
+                }
+                callback(jsonData);
+            });
+        }else {
+            python_code.execute(reqData,function(jsonData){
+                pythonCounter--;
+                if(pythonCounter == 0) {
+                    deleteAllProcess(8);
+                }
+                callback(jsonData);
+            });
+        }    
+    }
+
+    else if(lang == "perl"){
+        perlCounter++;
+
+        if(mode == "verify") {
+            perl_check.execute(reqData,function(jsonData){
+                perlCounter--;
+                if(perlCounter == 0) {
+                    deleteAllProcess(9);
+                }
+                callback(jsonData);
+            });
+        }else {
+            perl_code.execute(reqData,function(jsonData){
+                perlCounter--;
+                if(perlCounter == 0) {
+                    deleteAllProcess(9);
+                }
+                callback(jsonData);
+            });
+        }    
+    }
+    
+    else if(lang == "ruby"){
+        rubyCounter++;
+
+        if(mode == "verify") {
+            ruby_check.execute(reqData,function(jsonData){
+                rubyCounter--;
+                if(rubyCounter == 0) {
+                    deleteAllProcess(10);
+                }
+                callback(jsonData);
+            });
+        }else {
+            ruby_code.execute(reqData,function(jsonData){
+                rubyCounter--;
+                if(rubyCounter == 0) {
+                    deleteAllProcess(10);
+                }
+                callback(jsonData);
+            });
+        }    
+    }
+
+    else if(lang == "r"){
+        rCounter++;
+
+        if(mode == "verify") {
+            r_check.execute(reqData,function(jsonData){
+                rCounter--;
+                if(rCounter == 0) {
+                    deleteAllProcess(10);
+                }
+                callback(jsonData);
+            });
+        }else {
+            r_code.execute(reqData,function(jsonData){
+                rCounter--;
+                if(rCounter == 0) {
+                    deleteAllProcess(10);
+                }
+                callback(jsonData);
+            });
+        }    
+    }
+
+else if(lang == "java") {
+        javaCounter++;
 
         if(mode == "verify") {
             java_check.execute(reqData,function(jsonData){

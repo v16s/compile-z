@@ -13,12 +13,12 @@ var execute = function(reqData,callback) {
         fs.mkdirSync(pathName,0777);
     }
 
-    var finalSourceCode = "#define system1 NotAllowedException \n #define exec NotAllowedException \n" + reqData['code'];
-    fs.writeFileSync("./usercodes/" + foldername + "/main.cpp",finalSourceCode);
+    var finalSourceCode = reqData['code'];
+    fs.writeFileSync("./usercodes/" + foldername + "/hmain.hs",finalSourceCode);
 
     var pwd = process.cwd() + "/usercodes/" + foldername + "/";
 
-     execFile('g++',['-std=c++11','main.cpp'], {'cwd': pwd },(error, stdout, stderr) => {
+     execFile('ghc',['hmain.hs','-o', 'hmain', '-threaded', '-rtsopts'], {'cwd': pwd },(error, stdout, stderr) => {
         if (error) {
 
                         //free up folder
@@ -98,7 +98,7 @@ var execute = function(reqData,callback) {
         
         fs.writeFileSync("./usercodes/" + foldername + "/input" + index + ".txt",input);
         
-        exec('./a.out <input' + index + '.txt',{'cwd': pwd, 'timeout': 10000 },(error, stdout, stderr) => {
+        exec('./hmain <input' + index + '.txt',{'cwd': pwd, 'timeout': 10000 },(error, stdout, stderr) => {
             if (error) {
                 if(error['signal'] === "SIGTERM") {
                     callback({

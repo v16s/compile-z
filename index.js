@@ -65,7 +65,7 @@ app.post("/api/v1/image",function(req,res){
 
 
 app.listen(2200,function(){
-    console.log("Listening on Port 2200")
+    console.log("eLab Listening on Port 2200")
 });
 
 setInterval(function(){
@@ -86,12 +86,68 @@ setInterval(function(){
         }
         console.log("Process Killed java");
     });
+    
+    exec("killall javac",(error,stdout,stderr) => {
+        if(error) {
+            console.log('Error in killing with Message: ' + error.message);
+        }
+        console.log("Process Killed javac");
+    });
+
+exec("killall python3.6",(error,stdout,stderr) => {
+        if(error) {
+            console.log('Error in killing with Message: ' + error.message);
+        }
+        console.log("Process Killed python");
+    });
+    exec("killall perl",(error,stdout,stderr) => {
+        if(error) {
+            console.log('Error in killing with Message: ' + error.message);
+        }
+        console.log("Process Killed perl");
+    });
+
+    exec("killall mono",(error,stdout,stderr) => {
+        if(error) {
+            console.log('Error in killing with Message: ' + error.message);
+        }
+        console.log("Process Killed mono");
+    });
+
+    exec("killall hmain",(error,stdout,stderr) => {
+        if(error) {
+            console.log('Error in killing with Message: ' + error.message);
+        }
+        console.log("Process Killed haskell hmain");
+    });
+
+
+    exec("killall ruby",(error,stdout,stderr) => {
+        if(error) {
+            console.log('Error in killing with Message: ' + error.message);
+        }
+        console.log("Process Killed ruby");
+    });
 
     exec("killall octave-gui",(error,stdout,stderr) => {
         if(error) {
             console.log('Error in killing with Message: ' + error.message);
         }
         console.log("Process Killed octave-gui");
+    });
+
+    exec("killall octave-cli",(error,stdout,stderr) => {
+        if(error) {
+            console.log('Error in killing with Message: ' + error.message);
+        }
+        console.log("Process Killed octave-cli");
+    });
+
+    exec("killall R",(error,stdout,stderr) => {
+        if(error) {
+            console.log('Error in killing with Message: ' + error.message);
+        }
+        console.log("Process Killed r");
     });
     }
 },300000);
